@@ -1,4 +1,4 @@
 [build]
 base = "planejado-facil-main"
 command = "npm run build"
-publish = "planejado-facil-main/dist"
+publish = "./dist"
