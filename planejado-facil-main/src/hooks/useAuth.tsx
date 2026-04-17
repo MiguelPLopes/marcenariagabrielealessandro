@@ -45,9 +45,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: import.meta.env.VITE_AUTH_REDIRECT_URL || window.location.origin,
+        redirectTo: 'https://marcenariagabrielealessandro.netlify.app/',
       },
     });
+
     if (error) throw error;
   };
 
