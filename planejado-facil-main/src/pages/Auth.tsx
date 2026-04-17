@@ -21,6 +21,7 @@ const Auth = () => {
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -28,18 +29,9 @@ const Auth = () => {
       });
 
       if (error) throw error;
-      toast.success('Login realizado com sucesso!');
-      useEffect(() => {
-        const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-          if (session) {
-            navigate('/');
-          }
-        });
 
-        return () => {
-          listener.subscription.unsubscribe();
-        };
-      }, []);
+      toast.success('Login realizado com sucesso!');
+      // ❌ NÃO navega aqui
     } catch (error: any) {
       toast.error(error.message || 'Erro ao realizar login.');
     } finally {
