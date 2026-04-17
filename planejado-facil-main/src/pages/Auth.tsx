@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
@@ -29,7 +29,17 @@ const Auth = () => {
 
       if (error) throw error;
       toast.success('Login realizado com sucesso!');
-      navigate('/');
+      useEffect(() => {
+        const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+          if (session) {
+            navigate('/');
+          }
+        });
+
+        return () => {
+          listener.subscription.unsubscribe();
+        };
+      }, []);
     } catch (error: any) {
       toast.error(error.message || 'Erro ao realizar login.');
     } finally {
@@ -38,6 +48,7 @@ const Auth = () => {
   };
 
   const handleEmailSignUp = async (e: React.FormEvent) => {
+    debugger;
     e.preventDefault();
     setLoading(true);
     try {
